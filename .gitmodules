@@ -1,0 +1,3 @@
+[submodule "RadioControlProtocolC"]
+	path = RadioControlProtocolC
+	url = https://github.com/ToolboxPlane/RadioControlProtocolC.git

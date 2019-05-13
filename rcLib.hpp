@@ -7,16 +7,12 @@
 #ifndef _RC_LIB_PACKAGE_
 #define _RC_LIB_PACKAGE_
 
-#define RC_LIB_START 0xC9 //201_{10}
-#define  RC_LIB_END 0x93 //147_{10}
-
-#ifndef RC_LIB_PACKAGE_BUFFER_SIZE
-    #define RC_LIB_PACKAGE_BUFFER_SIZE 64
-#endif
-
-#include <stdint.h>
+extern "C" {
+#include "RadioControlProtocolC/rc_lib.h"
+}
 
 namespace rcLib{
+
     class Package{
         public:
             /**
@@ -42,7 +38,7 @@ namespace rcLib{
              * Convert the package into a serialised byte-array for sending
              * @return a byte array containing the package
              */
-            uint8_t encode(void);
+            uint8_t encode();
 
             /**
              * Read the data which should get transmitted
@@ -75,13 +71,13 @@ namespace rcLib{
              * Get the resolution (steps) of each channel
              * @return  The resolution as a uint16_t
              */
-            uint16_t getResolution(void);
+            uint16_t getResolution();
 
             /**
              * Get the id of the original sender of the package
              * @return  a uint8_t containing the id
              */
-            uint8_t getDeviceId(void);
+            uint8_t getDeviceId();
 
             /**
              * Set the id of the original sender, this function should only be called if the deviceId != transmitterId.
@@ -94,13 +90,13 @@ namespace rcLib{
              * Check if the calculated checksum equals the checksum of the package.
              * @return  a boolean whether the checksum is correct
              */
-            uint8_t isChecksumCorrect(void);
+            uint8_t isChecksumCorrect();
 
             /**
              * Read whether the message is a mesh message
              * @return  a boolean wheter the message is a mesh message
              */
-            uint8_t isMesh(void);
+            uint8_t isMesh();
 
                /**
              * Set the properties of the package if it is a mesh package
@@ -114,13 +110,13 @@ namespace rcLib{
              * Checks whether the message has already been forwarded
              * @return true if routingLength is larger 0 and the message is a mesh message
              */
-            uint8_t needsForwarding(void);
+            uint8_t needsForwarding();
 
             /**
              * Counts the current node as traversed node by decrementing
              * the routing Length
              */
-            void countNode(void);
+            void countNode();
 
             /**
              * @return A boolean wheter the message is a discover message
@@ -144,38 +140,10 @@ namespace rcLib{
              */
             void makeDiscoverResponse(Package responses[], uint8_t len);
 
-            static uint8_t transmitterId;
+            static void setTransmitterId(uint8_t transmitterId);
+            static uint8_t getTransmitterId();
     protected:
-            uint8_t calculateChecksum(void);
-
-            uint16_t channelData[RC_LIB_PACKAGE_BUFFER_SIZE];
-            uint8_t buffer[RC_LIB_PACKAGE_BUFFER_SIZE];
-            uint8_t bufCount;
-
-            uint8_t uid; ///< Unique (package) id
-            uint8_t tid; ///< Unique transmitter (device) id
-            uint16_t channelCount; ///< Number of saved channels
-            uint16_t resolution; ///< Resolution of each channel in pixels
-
-            uint8_t checksum;
-
-            uint8_t mesh;
-            uint8_t routingLength;
-            uint8_t discoverState; ///< Zero means no discovery-message, one is a discovery message, two a discovery response
-
-            uint8_t receiveStateMachineState = 0;
-            uint8_t dataByteCount = 0;t
-
-            static uint8_t calculateChecksum(uint8_t* data, uint8_t size);
-
-            static uint8_t resolutionStepsToKey(uint16_t steps);
-            static uint8_t channelCountToKey(uint16_t channelCount);
-            static uint16_t keyToResolutionSteps(uint8_t key);
-            static uint16_t keyToChannelCount(uint8_t key);
-            static uint8_t resolutionStepsToBitCount(uint16_t steps);
-
-            static uint8_t globalPackageUid;
-            static uint8_t errorCount;
+            rc_lib_package_t pkg;
     };
 }
 #endif
