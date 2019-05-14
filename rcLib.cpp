@@ -3,10 +3,12 @@
 //
 #include "rcLib.hpp"
 
-rcLib::Package::Package() : pkg{} {}
+rcLib::Package::Package() : pkg{} {
+    rc_lib_init_rx(&pkg);
+}
 
 rcLib::Package::Package(uint16_t resolution, uint8_t channelCount) : pkg{} {
-    rc_lib_init(&pkg, resolution, channelCount);
+    rc_lib_init_tx(&pkg, resolution, channelCount);
 }
 
 uint8_t rcLib::Package::encode() {
