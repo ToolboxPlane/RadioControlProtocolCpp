@@ -44,7 +44,7 @@ namespace rcLib{
              * Read the data which should get transmitted
              * @return a pointer to the data, the length is returned by the encode function.
              */
-            uint8_t* getEncodedData();
+            [[nodiscard]] const uint8_t* getEncodedData() const;
 
             /**
              * Set the value of one channel. The values get ignored if they are
@@ -59,25 +59,25 @@ namespace rcLib{
              * @param  channel the number (starting at 0) of the channel
              * @return         the value of the channel
              */
-            uint16_t getChannel(uint8_t channel);
+            [[nodiscard]] uint16_t getChannel(uint8_t channel) const;
 
             /**
              * Read the amount of channels transmitted by the sender
              * @return the number of channels
              */
-            uint16_t getChannelCount();
+            [[nodiscard]] uint16_t getChannelCount() const;
 
             /**
              * Get the resolution (steps) of each channel
              * @return  The resolution as a uint16_t
              */
-            uint16_t getResolution();
+            [[nodiscard]] uint16_t getResolution() const;
 
             /**
              * Get the id of the original sender of the package
              * @return  a uint8_t containing the id
              */
-            uint8_t getDeviceId();
+            [[nodiscard]] uint8_t getDeviceId() const;
 
             /**
              * Set the id of the original sender, this function should only be called if the deviceId != transmitterId.
@@ -90,13 +90,13 @@ namespace rcLib{
              * Check if the calculated checksum equals the checksum of the package.
              * @return  a boolean whether the checksum is correct
              */
-            uint8_t isChecksumCorrect();
+            [[nodiscard]] uint8_t isChecksumCorrect() const;
 
             /**
              * Read whether the message is a mesh message
              * @return  a boolean wheter the message is a mesh message
              */
-            uint8_t isMesh();
+            [[nodiscard]] uint8_t isMesh() const;
 
                /**
              * Set the properties of the package if it is a mesh package
@@ -110,7 +110,7 @@ namespace rcLib{
              * Checks whether the message has already been forwarded
              * @return true if routingLength is larger 0 and the message is a mesh message
              */
-            uint8_t needsForwarding();
+            [[nodiscard]] uint8_t needsForwarding() const;
 
             /**
              * Counts the current node as traversed node by decrementing
@@ -121,12 +121,12 @@ namespace rcLib{
             /**
              * @return A boolean wheter the message is a discover message
              */
-            uint8_t isDiscoverMessage();
+            [[nodiscard]] uint8_t isDiscoverMessage() const;
 
             /**
              * @return A boolean wheter the message is a discover response
              */
-            uint8_t isDiscoverResponse();
+            [[nodiscard]] uint8_t isDiscoverResponse() const;
 
             /**
              * Sets the package as a discover message

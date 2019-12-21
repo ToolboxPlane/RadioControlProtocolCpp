@@ -34,15 +34,15 @@ void rcLib::Package::setMeshProperties(uint8_t enabled, uint8_t routingLength) {
     this->pkg.routing_length = routingLength;
 }
 
-uint8_t rcLib::Package::getDeviceId() {
+uint8_t rcLib::Package::getDeviceId() const {
     return this->pkg.tid;
 }
 
-uint16_t rcLib::Package::getResolution() {
+uint16_t rcLib::Package::getResolution() const {
     return this->pkg.resolution;
 }
 
-uint16_t rcLib::Package::getChannel(uint8_t channel) {
+uint16_t rcLib::Package::getChannel(uint8_t channel) const {
     if(channel <= this->pkg.channel_count){
         return this->pkg.channel_data[channel];
     } else {
@@ -50,19 +50,19 @@ uint16_t rcLib::Package::getChannel(uint8_t channel) {
     }
 }
 
-uint16_t rcLib::Package::getChannelCount() {
+uint16_t rcLib::Package::getChannelCount() const {
     return this->pkg.channel_count;
 }
 
-uint8_t rcLib::Package::isChecksumCorrect() {
+uint8_t rcLib::Package::isChecksumCorrect() const {
     return static_cast<uint8_t>(this->pkg.checksum == rc_lib_calculate_checksum(&this->pkg));
 }
 
-uint8_t rcLib::Package::isMesh() {
+uint8_t rcLib::Package::isMesh() const {
     return this->pkg.mesh;
 }
 
-uint8_t rcLib::Package::needsForwarding() {
+uint8_t rcLib::Package::needsForwarding() const {
     return static_cast<uint8_t>(this->pkg.mesh && this->pkg.routing_length > 0);
 }
 
@@ -70,12 +70,12 @@ void rcLib::Package::countNode() {
     this->pkg.routing_length--;
 }
 
-uint8_t rcLib::Package::isDiscoverMessage() {
+uint8_t rcLib::Package::isDiscoverMessage() const {
     return rc_lib_is_discover_message(&this->pkg);
 }
 
 
-uint8_t rcLib::Package::isDiscoverResponse() {
+uint8_t rcLib::Package::isDiscoverResponse() const {
     return rc_lib_is_discover_response(&this->pkg);
 }
 
@@ -84,7 +84,7 @@ void rcLib::Package::setDiscoverMessage() {
 }
 
 void rcLib::Package::makeDiscoverResponse(Package responses[], uint8_t len) {
-    rc_lib_package_t responses_pkg[len];
+    rc_lib_package_t responses_pkg[DATA_BUFFER_SIZE];
     for (uint8_t c = 0; c < len; ++c) {
         responses_pkg[c] = responses[c].pkg;
     }
@@ -92,7 +92,7 @@ void rcLib::Package::makeDiscoverResponse(Package responses[], uint8_t len) {
 }
 
 
-uint8_t *rcLib::Package::getEncodedData() {
+const uint8_t *rcLib::Package::getEncodedData() const {
     return pkg.buffer;
 }
 
