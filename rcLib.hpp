@@ -32,7 +32,7 @@ namespace rcLib{
              * @param  data a byte containing package information
              * @return      a boolean, true when the package is finished
              */
-            uint8_t decode(uint8_t data);
+            bool decode(uint8_t data);
 
             /**
              * Convert the package into a serialised byte-array for sending

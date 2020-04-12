@@ -15,7 +15,7 @@ uint8_t rcLib::Package::encode() {
     return rc_lib_encode(&pkg);
 }
 
-uint8_t rcLib::Package::decode(uint8_t data) {
+bool rcLib::Package::decode(uint8_t data) {
     return rc_lib_decode(&pkg, data);
 }
 
